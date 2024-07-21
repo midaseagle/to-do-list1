@@ -1,5 +1,8 @@
+// src/App.js
 import React, { useState } from 'react';
 import './App.css';
+import Header from './Header';
+import { LanguageProvider, useLanguage } from './LanguageContext';
 
 function App() {
   const [task, setTask] = useState('');
@@ -8,6 +11,8 @@ function App() {
     inProgress: [],
     completed: []
   });
+
+  const { language, translations } = useLanguage();
 
   const addTask = () => {
     if (task.trim()) {
@@ -38,55 +43,55 @@ function App() {
 
   return (
     <div className="App">
-      <h1>To-Do List</h1>
+      <Header />
       <div className="task-input">
         <input
           type="text"
           value={task}
           onChange={(e) => setTask(e.target.value)}
-          placeholder="Enter a new task"
+          placeholder={translations[language].enterTask}
         />
-        <button onClick={addTask}>Add Task</button>
+        <button onClick={addTask}>{translations[language].addTask}</button>
       </div>
       <div className="columns">
         <div className="column">
-          <h2>To Be Performed</h2>
+          <h2>{translations[language].toDo}</h2>
           <ul className="task-list">
             {tasks.todo.map((task, index) => (
               <li key={index}>
                 {task}
                 <div>
-                  <button className="start-button" onClick={() => moveTask(index, 'todo', 'inProgress')}>Start</button>
-                  <button className="delete-button" onClick={() => deleteTask(index, 'todo')}>Delete</button>
+                  <button className="start-button" onClick={() => moveTask(index, 'todo', 'inProgress')}>{translations[language].start}</button>
+                  <button className="delete-button" onClick={() => deleteTask(index, 'todo')}>{translations[language].delete}</button>
                 </div>
               </li>
             ))}
           </ul>
         </div>
         <div className="column">
-          <h2>In Progress</h2>
+          <h2>{translations[language].inProgress}</h2>
           <ul className="task-list">
             {tasks.inProgress.map((task, index) => (
               <li key={index}>
                 {task}
                 <div>
-                  <button className="move-button" onClick={() => moveTask(index, 'inProgress', 'todo')}>To Do</button>
-                  <button className="finish-button" onClick={() => moveTask(index, 'inProgress', 'completed')}>Finish</button>
-                  <button className="delete-button" onClick={() => deleteTask(index, 'inProgress')}>Delete</button>
+                  <button className="move-button" onClick={() => moveTask(index, 'inProgress', 'todo')}>{translations[language].toDo}</button>
+                  <button className="finish-button" onClick={() => moveTask(index, 'inProgress', 'completed')}>{translations[language].finish}</button>
+                  <button className="delete-button" onClick={() => deleteTask(index, 'inProgress')}>{translations[language].delete}</button>
                 </div>
               </li>
             ))}
           </ul>
         </div>
         <div className="column">
-          <h2>Completed Works</h2>
+          <h2>{translations[language].completed}</h2>
           <ul className="task-list">
             {tasks.completed.map((task, index) => (
               <li key={index}>
                 {task}
                 <div>
-                  <button className="move-button" onClick={() => moveTask(index, 'completed', 'inProgress')}>Undo</button>
-                  <button className="delete-button" onClick={() => deleteTask(index, 'completed')}>Delete</button>
+                  <button className="move-button" onClick={() => moveTask(index, 'completed', 'inProgress')}>{translations[language].undo}</button>
+                  <button className="delete-button" onClick={() => deleteTask(index, 'completed')}>{translations[language].delete}</button>
                 </div>
               </li>
             ))}
@@ -97,4 +102,8 @@ function App() {
   );
 }
 
-export default App;
+export default () => (
+  <LanguageProvider>
+    <App />
+  </LanguageProvider>
+);

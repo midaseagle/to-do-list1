@@ -1,0 +1,24 @@
+.App-header {
+    background-color: #282c34;
+    padding: 20px;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .language-selector button {
+    margin-left: 10px;
+    padding: 10px 15px;
+    cursor: pointer;
+    border: none;
+    background-color: #61dafb;
+    color: #282c34;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .language-selector button:hover {
+    background-color: #21a1f1;
+  }
+  
